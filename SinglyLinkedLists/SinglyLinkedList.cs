@@ -160,7 +160,25 @@ namespace SinglyLinkedLists
 
         public bool IsSorted()
         {
-            throw new NotImplementedException();
+            SinglyLinkedListNode node = this.firstNode;
+            if (this.firstNode == null || this.firstNode.Next == null || node.Value == node.Next.Value)
+            {
+                return true;
+            }
+
+            else
+            {
+                while(node.Next != null)
+                {
+                    if (node > node.Next)
+                    {
+                        return false;
+                    }
+                    node = node.Next;
+                }
+                return true;
+            }
+
         }
 
         // HINT 1: You can extract this functionality (finding the last item in the list) from a method you've already written!
@@ -207,9 +225,54 @@ namespace SinglyLinkedLists
 
         }
 
+        private void Swap(SinglyLinkedListNode prevPrev, SinglyLinkedListNode prev, SinglyLinkedListNode curr)
+        {
+            var temp = prev;
+            prev.Next = curr.Next;
+            curr.Next = temp;
+            if (firstNode == temp)
+            {
+                firstNode = curr;
+            }
+            else
+            {
+                prevPrev.Next = curr;
+            }
+        }
+
+        private SinglyLinkedListNode NodeAt(int index)
+        {
+            var result = firstNode;
+            for (int i = 0; i < index; i++)
+            {
+                result = result.Next;
+            }
+            return result;
+        }
+
         public void Sort()
         {
-            throw new NotImplementedException();
+            if (firstNode == null || firstNode.Next == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < this.Count(); i++)
+            {
+               SinglyLinkedListNode lowest = NodeAt(i);
+                for (int j = i + 1; j < this.Count(); j++)
+			{
+			 if (lowest > NodeAt(j)){
+                 lowest = NodeAt(j);
+             }
+			}
+                if(lowest != NodeAt(i))
+                {
+                    Swap(NodeAt(i - 1), NodeAt(i), lowest);
+                }
+                        //either implement a setter so that it swaps values or we have to swap nodes itself.
+                
+            }
         }
 
         public string[] ToArray()
